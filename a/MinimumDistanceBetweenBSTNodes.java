@@ -8,25 +8,24 @@
  * }
  */
 class Solution {
-    
+    int res = Integer.MAX_VALUE;
+    Integer pre = null;
     public int minDiffInBST(TreeNode root) {
-        List<Integer> inOrder = new ArrayList<>();
-        inOrderTraversal(root, inOrder);
-        int res = Integer.MAX_VALUE;
-        for (int i = 1; i < inOrder.size(); i++) {
-            res = Math.min(res, inOrder.get(i) - inOrder.get(i - 1));
-        }
+        inOrderTraversal(root);
         return res;
     }
     
-    private void inOrderTraversal(TreeNode root, List<Integer> inOrder) {
+    private void inOrderTraversal(TreeNode root) {
         if (root == null) {
             return;
         }
     
-        inOrderTraversal(root.left, inOrder);
-        inOrder.add(root.val);
-        inOrderTraversal(root.right, inOrder);
+        inOrderTraversal(root.left);
+        if (pre != null) {
+            res = Math.min(res, root.val - pre);
+        }
+        pre = root.val;
+        inOrderTraversal(root.right);
     }
 
 }
